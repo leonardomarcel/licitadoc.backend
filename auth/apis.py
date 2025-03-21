@@ -29,7 +29,7 @@ def login_view(request):
 @csrf_exempt
 def logout_view(request):
     if request.method == 'POST':
-        # logout(request)
+        logout(request)
         return JsonResponse({'success': True})
 
     return JsonResponse({'success': False})

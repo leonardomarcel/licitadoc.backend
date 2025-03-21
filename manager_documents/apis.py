@@ -10,7 +10,6 @@ from django.http import HttpResponse, FileResponse
 import mimetypes
 import os
 import docx2pdf
-import pythoncom
 
 # Create your views here.
 
