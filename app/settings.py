@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-($#r&6wxn(h!7vkm%a9+w*wy63r9^pg1&%li7fi#_5-bx*^6-x
 DEBUG = True
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
+    "https://licitadoc-sable.vercel.app/",
     "https://licitadoc-sable.vercel.app",
 
 ]

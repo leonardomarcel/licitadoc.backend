@@ -3,7 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 import json
 
 from .serializers import UserSerializer
@@ -14,6 +15,7 @@ from .serializers import UserSerializer
 
 @csrf_exempt
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def login_view(request):
     data = json.loads(request.body)
     username = data.get('username')
