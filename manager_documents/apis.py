@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+#from rest_framework.permissions import IsAuthenticated
 from rest_framework import serializers
 from rest_framework.response import Response
 from django.http import HttpResponse, FileResponse
@@ -32,7 +32,7 @@ def add_document(request):
     return render(request, 'add_document.html', {'form': form})
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+#@permission_classes([IsAuthenticated])
 def list_documents(request):
     documents = Document.objects.all()
     serializer = DocumentSerializer(documents, many=True)
@@ -40,7 +40,7 @@ def list_documents(request):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+#@permission_classes([IsAuthenticated])
 def download_document(request, pk):
     document = Document.objects.get(pk=pk)
     file_path = document.document.path
@@ -57,7 +57,7 @@ def download_document(request, pk):
     return response
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+#@permission_classes([IsAuthenticated])
 def view_document(request, pk):
     #pythoncom.CoInitialize()  # Inicializa o COM
     document = Document.objects.get(pk=pk)
