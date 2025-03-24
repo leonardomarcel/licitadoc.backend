@@ -74,7 +74,6 @@ def view_document(request, pk):
         docx2pdf.convert(file_path, pdf_file_path)
     else:
         pdf_file_path = file_path
-    print(pdf_file_path)
        
     #response = FileResponse(open(pdf_file_path, "rb"), content_type="application/pdf")    
     return FileResponse(open(pdf_file_path, 'rb'), as_attachment=True, filename=file_name)
