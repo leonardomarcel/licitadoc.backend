@@ -12,7 +12,6 @@ from django.http import HttpResponse, FileResponse
 from django.utils.encoding import smart_str
 import os
 import docx2pdf
-import pythoncom
 
 # Create your views here.
 
