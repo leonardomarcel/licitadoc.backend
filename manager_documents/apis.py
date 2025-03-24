@@ -60,7 +60,7 @@ def download_document(request, pk):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def view_document(request, pk):
-    pythoncom.CoInitialize()  # Inicializa o COM
+    #pythoncom.CoInitialize()  # Inicializa o COM
     document = Document.objects.get(pk=pk)
     file_path = document.document.path
     file_name = document.document.name
