@@ -45,7 +45,6 @@ def download_document(request, pk):
     document = Document.objects.get(pk=pk)
     file_path = document.document.path
     file_name = document.document.name
-    print(file_path)
     if not os.path.exists(file_path):
         return JsonResponse({'status': 'error', 'message': 'File not found'})
     
