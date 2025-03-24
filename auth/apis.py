@@ -15,7 +15,7 @@ from .serializers import UserSerializer
 
 @csrf_exempt
 @api_view(['POST'])
-@permission_classes([AllowAny])
+# @permission_classes([AllowAny])
 def login_view(request):
     data = json.loads(request.body)
     username = data.get('username')
