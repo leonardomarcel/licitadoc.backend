@@ -40,6 +40,10 @@ CORS_ALLOW_HEADERS = [
     "x-csrf-token",
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://34.226.148.243.nip.io"
+]
+
 
 
 # Application definition
