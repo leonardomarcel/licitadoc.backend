@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Document
+from .utils import convert_to_pdf
 from .forms import DocumentForm
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -11,7 +12,7 @@ from rest_framework.response import Response
 from django.http import HttpResponse, FileResponse
 from django.utils.encoding import smart_str
 import os
-import docx2pdf
+# import docx2pdf
 from django.conf import settings
 
 
@@ -70,7 +71,8 @@ def view_document(request, pk):
         # Converte o arquivo para PDF
         new_pdf_file_path = os.path.join(settings.MEDIA_ROOT, f'documents/{document.uuid}/{document.uuid}.pdf')
         os.makedirs(os.path.dirname(new_pdf_file_path), exist_ok=True)
-        docx2pdf.convert(file_path, new_pdf_file_path)
+        # docx2pdf.convert(file_path, new_pdf_file_path)
+        convert_to_pdf(file_path, new_pdf_file_path)
         document.pdf_file_version.name = 'documents/{uuid}/{uuid}.pdf'.format(uuid=document.uuid)
         document.save()
     
