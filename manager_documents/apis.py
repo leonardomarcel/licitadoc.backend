@@ -10,6 +10,9 @@ from django.http import HttpResponse, FileResponse
 import mimetypes
 import os
 import docx2pdf
+from django.conf import settings
+import shutil
+import pythoncom
 
 # Create your views here.
 
@@ -39,7 +42,7 @@ def list_documents(request):
 @api_view(['GET'])
 def download_document(request, pk):
     document = Document.objects.get(pk=pk)
-    file_path = document.document.path
+    file_path = document.original_file.path
     file_name = document.document.name
     if not os.path.exists(file_path):
         return JsonResponse({'status': 'error', 'message': 'File not found'})
@@ -49,19 +52,25 @@ def download_document(request, pk):
 def view_document(request, pk):
     pythoncom.CoInitialize()  # Inicializa o COM
     document = Document.objects.get(pk=pk)
-    file_path = document.document.path
-    file_name = document.document.name
+    file_path = os.path.join(settings.MEDIA_ROOT, document.original_file.path)
+    file_name = document.original_file.name
     if not os.path.exists(file_path):
         return JsonResponse({'status': 'error', 'message': 'File not found'})
-    if file_name.endswith('.doc'):
+    if  (file_name.endswith('.docx') or file_name.endswith('.doc')) and not document.pdf_file_version:
         # Converte o arquivo para PDF
-        pdf_file_path = file_path.replace('.doc', '.pdf')
-        docx2pdf.convert(file_path, pdf_file_path)
-    elif file_name.endswith('.docx'):
-        pdf_file_path = file_path.replace('.docx', '.pdf')
-        docx2pdf.convert(file_path, pdf_file_path)
-    else:
+        new_pdf_file_path = os.path.join(settings.MEDIA_ROOT, f'documents/{document.uuid}/{document.uuid}.pdf')
+        os.makedirs(os.path.dirname(new_pdf_file_path), exist_ok=True)
+        docx2pdf.convert(file_path, new_pdf_file_path)
+        document.pdf_file_version.name = 'documents/{uuid}/{uuid}.pdf'.format(uuid=document.uuid)
+        document.save()
+    
+    if file_name.endswith('.pdf'):
         pdf_file_path = file_path
+        file_name = document.original_file.name
+    else:
+        pdf_file_path = os.path.join(settings.MEDIA_ROOT, document.pdf_file_version.path)
+        file_name = document.pdf_file_version.name
+    print(pdf_file_path)
+    print(file_name)
        
-    #response = FileResponse(open(pdf_file_path, "rb"), content_type="application/pdf")    
     return FileResponse(open(pdf_file_path, 'rb'), as_attachment=True, filename=file_name)
