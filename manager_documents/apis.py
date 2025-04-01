@@ -72,16 +72,16 @@ def view_document(request, pk):
         new_pdf_file_path = os.path.join(settings.MEDIA_ROOT, f'documents/{document.uuid}/{document.uuid}.pdf')
         os.makedirs(os.path.dirname(new_pdf_file_path), exist_ok=True)
         # docx2pdf.convert(file_path, new_pdf_file_path)
-        convert_to_pdf(file_path, new_pdf_file_path)
+        pdf_converted_path  = convert_to_pdf(file_path, new_pdf_file_path)
+        if not pdf_converted_path or not os.path.exists(pdf_converted_path):
+            return JsonResponse({'status': 'error', 'message': 'Failed to convert to PDF'})
         document.pdf_file_version.name = 'documents/{uuid}/{uuid}.pdf'.format(uuid=document.uuid)
         document.save()
     
-    if file_name.endswith('.pdf'):
-        pdf_file_path = file_path
-        file_name = document.original_file.name
-    else:
-        pdf_file_path = os.path.join(settings.MEDIA_ROOT, document.pdf_file_version.path)
-        file_name = document.pdf_file_version.name
+    pdf_file_path = (
+        file_path if file_name.endswith('.pdf') else os.path.join(settings.MEDIA_ROOT, document.pdf_file_version.path)
+    )
     
+   
        
     return FileResponse(open(pdf_file_path, 'rb'), as_attachment=True, filename=file_name)
