@@ -13,8 +13,7 @@ from django.utils.encoding import smart_str
 import os
 import docx2pdf
 from django.conf import settings
-import shutil
-import pythoncom
+
 
 # Create your views here.
 
@@ -81,7 +80,6 @@ def view_document(request, pk):
     else:
         pdf_file_path = os.path.join(settings.MEDIA_ROOT, document.pdf_file_version.path)
         file_name = document.pdf_file_version.name
-    print(pdf_file_path)
-    print(file_name)
+    
        
     return FileResponse(open(pdf_file_path, 'rb'), as_attachment=True, filename=file_name)
