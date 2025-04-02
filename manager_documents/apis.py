@@ -4,6 +4,7 @@ from .forms import DocumentForm
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from rest_framework.decorators import api_view
+from django.contrib.auth.decorators import login_required
 from rest_framework import serializers
 from rest_framework.response import Response
 from django.http import HttpResponse, FileResponse
@@ -33,6 +34,7 @@ def add_document(request):
     return render(request, 'add_document.html', {'form': form})
 
 @api_view(['GET'])
+@login_required
 def list_documents(request):
     documents = Document.objects.all()
     serializer = DocumentSerializer(documents, many=True)
@@ -40,6 +42,7 @@ def list_documents(request):
 
 
 @api_view(['GET'])
+@login_required
 def download_document(request, pk):
     document = Document.objects.get(pk=pk)
     file_path = document.original_file.path
@@ -49,6 +52,7 @@ def download_document(request, pk):
     return FileResponse(open(file_path, 'rb'), as_attachment=True, filename=file_name)
 
 @api_view(['GET'])
+@login_required
 def view_document(request, pk):
     pythoncom.CoInitialize()  # Inicializa o COM
     document = Document.objects.get(pk=pk)
@@ -70,7 +74,6 @@ def view_document(request, pk):
     else:
         pdf_file_path = os.path.join(settings.MEDIA_ROOT, document.pdf_file_version.path)
         file_name = document.pdf_file_version.name
-    print(pdf_file_path)
-    print(file_name)
+    
        
     return FileResponse(open(pdf_file_path, 'rb'), as_attachment=True, filename=file_name)
