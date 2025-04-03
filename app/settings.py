@@ -19,6 +19,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+SESSION_COOKIE_SAMESITE = "None"  # Permite que cookies sejam enviados entre domínios diferentes
+SESSION_COOKIE_SECURE = True  # Necessário para funcionar em HTTPS
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
