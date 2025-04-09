@@ -64,7 +64,7 @@ CORS_ALLOW_HEADERS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://34.226.148.243.nip.io"
+    "https://3.95.74.135.nip.io"
 ]
 
 
