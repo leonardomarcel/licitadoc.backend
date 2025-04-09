@@ -4,6 +4,7 @@ from .forms import DocumentForm
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from rest_framework.decorators import api_view
+from rest_framework.pagination import PageNumberPagination
 from django.contrib.auth.decorators import login_required
 from rest_framework import serializers
 from rest_framework.response import Response
@@ -22,6 +23,11 @@ class DocumentSerializer(serializers.ModelSerializer):
         model = Document
         fields = '__all__'
 
+class DocumentPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
 
 def add_document(request):
     if request.method == 'POST':
@@ -34,11 +40,13 @@ def add_document(request):
     return render(request, 'add_document.html', {'form': form})
 
 @api_view(['GET'])
-@login_required
+# @login_required
 def list_documents(request):
+    paginator = DocumentPagination()
     documents = Document.objects.all()
-    serializer = DocumentSerializer(documents, many=True)
-    return Response(serializer.data)
+    result_page = paginator.paginate_queryset(documents, request)
+    serializer = DocumentSerializer(result_page, many=True)
+    return paginator.get_paginated_response(serializer.data)
 
 
 @api_view(['GET'])
