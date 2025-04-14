@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Document
 from .utils import convert_to_pdf
 from .forms import DocumentForm
+from auth.utils.permissions import require_group
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
@@ -53,6 +54,7 @@ def list_documents(request):
 
 @api_view(['GET'])
 @login_required
+@require_group('premium')
 def download_document(request, pk):
     document = Document.objects.get(pk=pk)
     file_path = document.original_file.path

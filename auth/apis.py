@@ -23,8 +23,8 @@ def login_view(request):
     user = authenticate(request, username=username, password=password)
     if user is not None:
         login(request, user)
-        serialized_user = UserSerializer(user)
-        return JsonResponse({'user': serialized_user.data, 'success': True})
+        #serialized_user = UserSerializer(user)
+        return JsonResponse({'success': True})
     else:
         return JsonResponse({'success': False}) 
 
@@ -39,5 +39,8 @@ def logout_view(request):
 @login_required
 def check_session(request):
     #logout(request)
-    print(request.user.username)
     return JsonResponse({'authenticated': True, "user": request.user.username})
+
+@login_required
+def check_groups(request):
+    return JsonResponse({'groups': [group.name for group in request.user.groups.all()]})
