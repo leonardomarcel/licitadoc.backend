@@ -28,6 +28,11 @@ class Document(models.Model):
         verbose_name = 'Document'
         verbose_name_plural = 'Documents'
         ordering = ['-created_at']
+        permissions = [
+            ("can_download_document", "Can download document"),
+            ("can_view_document", "Can view document"),
+            
+        ]
 
 class Tag(models.Model):
     name = models.CharField(max_length=100)
