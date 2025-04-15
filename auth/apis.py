@@ -23,8 +23,8 @@ def login_view(request):
     user = authenticate(request, username=username, password=password)
     if user is not None:
         login(request, user)
-        #serialized_user = UserSerializer(user)
-        return JsonResponse({'success': True})
+        serialized_user = UserSerializer(user)
+        return JsonResponse({'user': serialized_user.data, 'success': True})
     else:
         return JsonResponse({'success': False}) 
 
