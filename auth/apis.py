@@ -43,4 +43,6 @@ def check_session(request):
 
 @login_required
 def check_groups(request):
-    return JsonResponse({'groups': [group.name for group in request.user.groups.all()]})
+    list_groups = [group.name for group in request.user.groups.all()]
+    print(list_groups)
+    return JsonResponse({'groups': list_groups})
