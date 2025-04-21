@@ -50,7 +50,7 @@ def list_documents(request):
     paginator = DocumentPagination()
     tag = request.query_params.get('tag')
     if tag:
-        documents = Document.objects.filter(tags__name=tag)
+        documents = Document.objects.filter(tags__id=tag)
     else:
         documents = Document.objects.all()
     result_page = paginator.paginate_queryset(documents, request)
