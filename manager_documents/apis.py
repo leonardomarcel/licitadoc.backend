@@ -49,6 +49,7 @@ def add_document(request):
 def list_documents(request):
     paginator = DocumentPagination()
     tag = request.query_params.get('tag')
+    print('taggssss:', tag)
     if tag:
         documents = Document.objects.filter(tags__id=tag)
     else:
