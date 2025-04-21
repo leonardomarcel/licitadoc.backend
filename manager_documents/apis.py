@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from .models import Document
+from .models import Document, Tag
 from .utils import convert_to_pdf
 from .forms import DocumentForm
+from .serializers import DocumentSerializer, TagSerializer
 from auth.utils.permissions import require_group
 from django.http import JsonResponse
 from django.shortcuts import redirect
@@ -20,12 +21,14 @@ from django.conf import settings
 
 # Create your views here.
 
-class DocumentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Document
-        fields = '__all__'
+
 
 class DocumentPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 100
+
+class TagPagination(PageNumberPagination):
     page_size = 10
     page_size_query_param = 'page_size'
     max_page_size = 100
@@ -48,6 +51,15 @@ def list_documents(request):
     documents = Document.objects.all()
     result_page = paginator.paginate_queryset(documents, request)
     serializer = DocumentSerializer(result_page, many=True)
+    return paginator.get_paginated_response(serializer.data)
+
+@api_view(['GET'])
+@login_required
+def list_tags(request):
+    paginator = TagPagination()
+    tags = Tag.objects.all()
+    result_page = paginator.paginate_queryset(tags, request)
+    serializer = TagSerializer(result_page, many=True)
     return paginator.get_paginated_response(serializer.data)
 
 
