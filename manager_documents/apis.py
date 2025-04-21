@@ -48,7 +48,11 @@ def add_document(request):
 @login_required
 def list_documents(request):
     paginator = DocumentPagination()
-    documents = Document.objects.all()
+    tag = request.query_params.get('tag')
+    if tag:
+        documents = Document.objects.filter(tags__name=tag)
+    else:
+        documents = Document.objects.all()
     result_page = paginator.paginate_queryset(documents, request)
     serializer = DocumentSerializer(result_page, many=True)
     return paginator.get_paginated_response(serializer.data)
