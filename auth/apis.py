@@ -55,7 +55,7 @@ def password_reset(request):
     try:
         User.objects.get(email=email)
         password = generate_password()
-        html_content = render_to_string('emails/meu_email.html', {
+        html_content = render_to_string('email/meu_email.html', {
         'password': password,
         'email': email
         })
