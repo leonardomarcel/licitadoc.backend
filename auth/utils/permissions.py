@@ -17,4 +17,5 @@ def require_group(*group_names):
                 return JsonResponse({'error': 'You do not have permission to access this resource.'}, status=403)
         return _wrapped_view
     return decorator
+
     

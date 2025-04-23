@@ -3,7 +3,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from rest_framework.decorators import api_view, permission_classes
+from django.template.loader import render_to_string
+from .utils.utils import send_email, generate_password
 from rest_framework.permissions import AllowAny
 import json
 
@@ -45,3 +48,22 @@ def check_session(request):
 def check_groups(request):
     list_groups = [group.name for group in request.user.groups.all()]
     return JsonResponse({'groups': list_groups})
+
+def password_reset(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return JsonResponse({'success': False})
+        password = generate_password()
+        html_content = render_to_string('emails/meu_email.html', {
+        'password': password,
+        'email': email
+        })
+        send_email('[Licita.doc] Email de redefinição de senha', message="oi", from_email="licitadoc@mail.com", to_email=email, html_message=html_content)
+        # user.set_password(password)
+        # user.save()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
+
