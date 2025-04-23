@@ -64,5 +64,5 @@ def password_reset(request):
         # user.save()
         return JsonResponse({'success': True, 'message': 'Se estiver cadastrado, o email foi enviado.'})
     except Exception as e:
-        return JsonResponse({'success': False, 'message': email}) #Email enviado com sucesso'})
+        return JsonResponse({'success': False, 'message': str(email)}) #Email enviado com sucesso'})
 
