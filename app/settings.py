@@ -196,11 +196,4 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-TEMPLATES = [
-    {
-        
-        'DIRS': [BASE_DIR / "templates"],  # se os templates estiverem fora das apps
-        
-        'APP_DIRS': True,  # se os templates estiverem dentro das apps
-    },
-]
+
