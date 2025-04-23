@@ -128,7 +128,7 @@ TEMPLATES = [
             ],
         },
         
-        'APP_DIRS': True,  # se os templates estiverem dentro das apps
+       
     },
 ]
 
