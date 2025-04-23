@@ -63,6 +63,6 @@ def password_reset(request):
         # user.set_password(password)
         # user.save()
         return JsonResponse({'success': True, 'message': 'Se estiver cadastrado, o email foi enviado.'})
-    except User.DoesNotExist:
-        return JsonResponse({'success': True, 'message': 'Se estiver cadastrado, o email foi enviado.'}) #Email enviado com sucesso'})
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': e}) #Email enviado com sucesso'})
 
