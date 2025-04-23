@@ -53,17 +53,17 @@ def password_reset(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         try:
-            user = User.objects.get(email=email)
+            User.objects.get(email=email)
+            password = generate_password()
+            html_content = render_to_string('emails/meu_email.html', {
+            'password': password,
+            'email': email
+            })
+            send_email('[Licita.doc] Email de redefinição de senha', message="oi", from_email="licitadoc@mail.com", to_email=email, html_message=html_content)
+            # user.set_password(password)
+            # user.save()
+            return JsonResponse({'success': True, 'message': 'Se estiver cadastrado, o email foi enviado.'})
         except User.DoesNotExist:
-            return JsonResponse({'success': False})
-        password = generate_password()
-        html_content = render_to_string('emails/meu_email.html', {
-        'password': password,
-        'email': email
-        })
-        send_email('[Licita.doc] Email de redefinição de senha', message="oi", from_email="licitadoc@mail.com", to_email=email, html_message=html_content)
-        # user.set_password(password)
-        # user.save()
-        return JsonResponse({'success': True})
-    return JsonResponse({'success': False})
+            return JsonResponse({'success': True, 'message': 'Se estiver cadastrado, o email foi enviado.'}) #Email enviado com sucesso'})
+    return JsonResponse({'success': False, 'message': 'Algo deu errado.'})
 
