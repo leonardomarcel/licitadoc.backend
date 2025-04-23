@@ -51,7 +51,7 @@ def check_groups(request):
 @csrf_exempt
 @api_view(['POST'])
 def password_reset(request):
-    email = request.POST.get('email')
+    email = request.data.get('email')
     try:
         User.objects.get(email=email)
         password = generate_password()
