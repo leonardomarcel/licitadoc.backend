@@ -3,7 +3,7 @@ from .models import Document, Tag
 from .utils import convert_to_pdf
 from .forms import DocumentForm
 from .serializers import DocumentSerializer, TagSerializer
-from auth.utils.permissions import require_group
+from custom_auth.utils.permissions import require_group
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
