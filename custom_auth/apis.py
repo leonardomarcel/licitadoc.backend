@@ -52,16 +52,16 @@ def check_groups(request):
 @api_view(['POST'])
 def password_reset(request):
     email = request.data.get('email')
-    # try:
-    User.objects.get(email=email)
-    password = generate_password()
-    html_content = render_to_string('auth/email/password_reset.html', {
-    'password': password,
-    'email': email
-    })
-    send_email('[Licita.doc] Email de redefinição de senha', message="oi", from_email="licitadoc@mail.com", to_email=email, html_message=html_content)
-    # user.set_password(password)
-    # user.save()
-    return JsonResponse({'success': True, 'message': str(html_content)})
-    # except Exception as e:
-    #     return JsonResponse({'success': False, 'message': str(e)}) #Email enviado com sucesso'})
+    try:
+        User.objects.get(email=email)
+        password = generate_password()
+        html_content = render_to_string('auth/email/password_reset.html', {
+        'password': password,
+        'email': email
+        })
+        send_email('[Licita.doc] Email de redefinição de senha', message="oi", from_email="licitadoc@mail.com", to_email=email, html_message=html_content)
+        # user.set_password(password)
+        # user.save()
+        return JsonResponse({'success': True, 'message': 'Se estiver cadastrado, o email foi enviado.'})
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': str(e)}) #Email enviado com sucesso'})
