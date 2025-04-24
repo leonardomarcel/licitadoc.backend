@@ -79,7 +79,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'manager_documents',
-    'auth',
+    'licitadoc.backend.auth', 
     'rest_framework',
     'corsheaders',
 ]
