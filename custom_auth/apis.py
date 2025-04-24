@@ -62,6 +62,6 @@ def password_reset(request):
     send_email('[Licita.doc] Email de redefinição de senha', message="oi", from_email="licitadoc@mail.com", to_email=email, html_message=html_content)
     # user.set_password(password)
     # user.save()
-    return JsonResponse({'success': True, 'message': 'Se estiver cadastrado, o email foi enviado.'})
+    return JsonResponse({'success': True, 'message': str(html_content)})
     # except Exception as e:
     #     return JsonResponse({'success': False, 'message': str(e)}) #Email enviado com sucesso'})
