@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .email-container {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+    .email-box {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    .titulo {
+      color: #2c3e50;
+    }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <div class="email-box">
+      <h2 class="titulo">Olá, {{ email }}!</h2>
+      <p>Seu cadastro foi realizado com sucesso!</p>
+      <p> Seu login: <b>{{ username }}</p>
+      <p>Sua senha: <b>{{ password }}</b></p>
+      <p>Clique no link abaixo para acessar a plataforma: </p>
+      <a href="https://licitadoc-sable.vercel.app/">Licitadoc</a>
+    </div>
+  </div>
+</body>
+</html>
