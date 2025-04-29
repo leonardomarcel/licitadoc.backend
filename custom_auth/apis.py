@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from models import CustomUser as User
+from django.contrib.auth.models import Group
 from rest_framework.decorators import api_view, permission_classes
 from django.template.loader import render_to_string
 from .utils.utils import send_email, generate_password, check_valid_email
@@ -84,7 +85,9 @@ def new_account_user(request):
                 bidding=request.data.get('worksInBidding', None),
                 password=password,
             )            
-            # group = Group.objects.get(name='score')
+            group = Group.objects.get(name='basic')
+            user.groups.add(group)
+            user.save()
             html_content = render_to_string('auth/email/new_account_user.html', {
             'password': password,
             'email': user.email
