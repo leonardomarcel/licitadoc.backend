@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from models import CustomUser as User
+from .models import CustomUser as User
 from django.contrib.auth.models import Group
 from rest_framework.decorators import api_view, permission_classes
 from django.template.loader import render_to_string
