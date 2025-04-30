@@ -90,7 +90,7 @@ def new_account_user(request):
         user.save()
         html_content = render_to_string('auth/email/new_account_user.html', {
         'password': password,
-        'email': user.email
+        'username': user.email
     })
         send_email('[Licita.doc] Bem-vindo ao Licitadoc', message="oi", from_email="licitadoc@mail.com", to_email=user.email, html_message=html_content)
         return JsonResponse({'sucess': True, 'reason': 'Usuário cadastrado com sucesso'})
