@@ -53,19 +53,19 @@ def check_groups(request):
 @api_view(['POST'])
 def password_reset(request):
     email = request.data.get('email')
-    #try:
-    user =  User.objects.get(email=email)
-    password = generate_password()
-    html_content = render_to_string('auth/email/password_reset.html', {
-    'password': password,
-    'email': email
-    })
-    send_email('[Licita.doc] Email de redefinição de senha', message="oi", from_email="licitadoc@mail.com", to_email=email, html_message=html_content)
-    user.set_password(password)
-    user.save()
-    return JsonResponse({'success': True, 'message': 'Se estiver cadastrado, o email foi enviado.'})
-    # except Exception as e:
-    #     return JsonResponse({'success': False, 'message': str(e)}) 
+    try:
+        user =  User.objects.get(email=email)
+        password = generate_password()
+        html_content = render_to_string('auth/email/password_reset.html', {
+        'password': password,
+        'email': email
+        })
+        send_email('[Licita.doc] Email de redefinição de senha', message="oi", from_email="licitadoc@mail.com", to_email=email, html_message=html_content)
+        user.set_password(password)
+        user.save()
+        return JsonResponse({'success': True, 'message': 'Se estiver cadastrado, o email foi enviado.'})
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': str(e)}) 
 
 @csrf_exempt
 @api_view(['POST'])
@@ -76,23 +76,23 @@ def new_account_user(request):
     if check_email['valid'] == False:
         return JsonResponse({'sucess': False, 'reason': check_email['reason']})
     else:
-        try:
-            user = User.objects.create_user(
-                full_name=request.data.get('fullName', None),
-                username=request.data.get('email', None),
-                email=request.data.get('email', None),
-                career=request.data.get('profession', None),
-                bidding=request.data.get('worksInBidding', None),
-                password=password,
-            )            
-            group = Group.objects.get(name='basic')
-            user.groups.add(group)
-            user.save()
-            html_content = render_to_string('auth/email/new_account_user.html', {
-            'password': password,
-            'email': user.email
-        })
-            send_email('[Licita.doc] Bem-vindo ao Licitadoc', message="oi", from_email="licitadoc@mail.com", to_email=user.email, html_message=html_content)
-            return JsonResponse({'sucess': True, 'reason': 'Usuário cadastrado com sucesso'})
-        except:
-            return JsonResponse({'sucess': False, 'message': 'Usuário não foi cadastrado'})
+        # try:
+        user = User.objects.create_user(
+            full_name=request.data.get('fullName', None),
+            username=request.data.get('email', None),
+            email=request.data.get('email', None),
+            career=request.data.get('profession', None),
+            bidding=request.data.get('worksInBidding', None),
+            password=password,
+        )            
+        group = Group.objects.get(name='basic')
+        user.groups.add(group)
+        user.save()
+        html_content = render_to_string('auth/email/new_account_user.html', {
+        'password': password,
+        'email': user.email
+    })
+        send_email('[Licita.doc] Bem-vindo ao Licitadoc', message="oi", from_email="licitadoc@mail.com", to_email=user.email, html_message=html_content)
+        return JsonResponse({'sucess': True, 'reason': 'Usuário cadastrado com sucesso'})
+        # except:
+        #     return JsonResponse({'sucess': False, 'message': 'Usuário não foi cadastrado'})
