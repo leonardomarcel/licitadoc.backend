@@ -1,6 +1,6 @@
 from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
-from models import AbstractUser as User
+from custom_auth.models import CustomUser as User
 
 
 
