@@ -4,7 +4,7 @@ from . import apis
 
 
 router = DefaultRouter()
-router.register(r'documents', apis.DocumentViewSet, basename='document')
+router.register(r'', apis.DocumentViewSet, basename='document')
 router.register(r'tags', apis.TagViewSet, basename='tag')
 
 urlpatterns = router.urls
