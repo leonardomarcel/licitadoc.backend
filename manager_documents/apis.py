@@ -83,8 +83,8 @@ class TagViewSet(ModelViewSet):
     pagination_class = TagPagination
     permission_classes = [IsAuthenticated]
     
-    def get_queryset(self):
-        return Tag.objects.all()
+    # def get_queryset(self):
+    #     return Tag.objects.all()
     
     @action(detail=False, methods=['post'])
     def add_tag(self, request):
