@@ -86,13 +86,7 @@ class TagViewSet(ModelViewSet):
     # def get_queryset(self):
     #     return Tag.objects.all()
     
-    @action(detail=False, methods=['post'])
-    def add_tag(self, request):
-        serializer = TagSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     
     
 
